@@ -35,17 +35,17 @@
 
 
      
-     <form action="" method='post'>
+     <form action="/addfriends" method='post'>
        <h6> Search Users</h6>
      {% csrf_token %}
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search users...">
+      <input type="text" class="form-control" name='search' placeholder="Search users...">
       <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button">Go!</button>
+        <button class="btn btn-secondary" type="submit">Go!</button>
       </span>
     </div>
     </form>
-<br>
+
      <h6> All Users</h6>
     <table class="table table-hover">
        <thead class="thead-dark">
