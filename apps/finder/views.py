@@ -49,6 +49,10 @@ def profile(request, id):
 	user_friends = []
 	for friend in friends:
 		user_friends.append(friend.sent_by)
+	if len(user_friends) > 0:
+		no_request = False
+	else:
+		no_request = True
 	context = {
 		'user': user,
 		'sessionid': request.session['uid'],
@@ -56,6 +60,7 @@ def profile(request, id):
 		'likes': user.likes.all(),
 		'dislikes': user.dislikes.all(),
 		'hates': user.hates.all(),
+		'no_request': no_request
 	}
 	return render(request, 'finder/profile.html', context)
 
@@ -153,7 +158,10 @@ def creategroup(request):
 def submitgroup(request):
 	if request.method == 'POST':
 		groupid = Group.objects.make_group(request.POST, request.session['uid'])
-	return redirect('/group/'+str(groupid))
+		if(groupid):
+			return redirect('/group/'+str(groupid))
+		else:
+			return redirect('/creategroup')
 
 def group(request, id):
 	group = Group.objects.get(id=id)
@@ -185,11 +193,21 @@ def leavegroup(request, id):
 	Group.objects.leave_group(id,request.session['uid'])
 	return redirect('/dashboard')
 
-def results(request, id):
+def generate(request, id):
+	group = Group.objects.get(id=id)
+	choices = Group.objects.randomcuisine(id)
+	if len(choices) > 0:
+		no_options = False
+	else:
+		no_options = True
 	context = {
+		'choices': choices,
+		'group': group,
 		'sessionid': request.session['uid'],
+		'no_options': no_options,
 	}
 	return render(request, 'finder/option.html', context)
+
 
 def logout(request):
 	request.session.clear()
