@@ -92,7 +92,7 @@
             </thead>
             {% for friend in myfriends %}
               <tr class="d-flex">
-                <td class='col-3'> <a class='username' href="{{friend.id}}/">{{friend.name}}</a></td>
+                <td class='col-3'> <a class='username' href="/profile/{{friend.id}}">{{friend.name}}</a></td>
                 <td class='col-9'> <a href="/group/{{group.id}}/addmember/{{friend.id}}/"> <button class='action'>Add to group</button></a></td>
               </tr>
               
